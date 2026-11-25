@@ -68,7 +68,6 @@ public partial class DashboardViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(IsProgressIndeterminate))]
     [NotifyCanExecuteChangedFor(nameof(ProcessQueryCommand))]
     [NotifyCanExecuteChangedFor(nameof(ShowAuthSetupCommand))]
-    [NotifyCanExecuteChangedFor(nameof(ShowSettingsCommand))]
     public partial bool IsBusy { get; set; }
 
     public ProgressContainer<Percentage> Progress { get; } = new();
@@ -144,12 +143,6 @@ public partial class DashboardViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanShowAuthSetup))]
     private async Task ShowAuthSetupAsync() =>
         await _dialogManager.ShowDialogAsync(_viewModelManager.GetAuthSetupViewModel());
-
-    private bool CanShowSettings() => !IsBusy;
-
-    [RelayCommand(CanExecute = nameof(CanShowSettings))]
-    private async Task ShowSettingsAsync() =>
-        await _dialogManager.ShowDialogAsync(_viewModelManager.GetSettingsViewModel());
 
     private async void EnqueueDownload(DownloadViewModel download, int position = 0)
     {

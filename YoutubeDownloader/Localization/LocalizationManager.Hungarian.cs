@@ -7,6 +7,9 @@ public partial class LocalizationManager
     private static readonly IReadOnlyDictionary<string, string> HungarianLocalization =
         new Dictionary<string, string>
         {
+            // Navigation
+            [nameof(HomePageLabel)] = "Kezdőlap",
+            [nameof(DownloadsPageLabel)] = "Letöltések",
             // Dashboard
             [nameof(QueryPlaceholderText)] = "URL vagy keresés",
             [nameof(QueryTooltip)] =
@@ -18,6 +21,7 @@ public partial class LocalizationManager
                 Másold be egy videó **URL**-jét vagy írj be egy **kifejezést** a kereséshez
                 Több elem hozzáadásához nyomj **Shift+Enter**-t
                 """,
+            [nameof(DownloadsPlaceholder)] = "Még nincsenek letöltések",
             [nameof(DownloadsFileColumnHeader)] = "Fájl",
             [nameof(DownloadsStatusColumnHeader)] = "Státusz",
             [nameof(ContextMenuRemoveSuccessful)] = "Sikeres letöltések eltávolítása",

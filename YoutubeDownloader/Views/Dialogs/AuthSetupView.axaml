@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dialogs="clr-namespace:YoutubeDownloader.ViewModels.Dialogs"
-    xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:md="using:Md3.Avalonia.Controls"
     Height="450"
     MinWidth="450"
     x:DataType="dialogs:AuthSetupViewModel">
@@ -12,14 +12,15 @@
         <TextBlock
             Grid.Row="0"
             Margin="16"
-            FontSize="19"
-            FontWeight="Light"
+            FontSize="{DynamicResource Md.Sys.TypeScale.TitleLarge.Size}"
+            FontWeight="Medium"
+            Foreground="{DynamicResource Md.Sys.Color.OnSurface.Brush}"
             Text="{Binding LocalizationManager.AuthenticationTitle}" />
 
         <!--  Content  -->
         <Border
             Grid.Row="1"
-            BorderBrush="{DynamicResource MaterialDividerBrush}"
+            BorderBrush="{DynamicResource Md.Sys.Color.OutlineVariant.Brush}"
             BorderThickness="0,1">
             <Panel>
                 <!--  Current auth status  -->
@@ -30,12 +31,11 @@
                     IsVisible="{Binding IsAuthenticated}"
                     Orientation="Vertical"
                     Spacing="16">
-                    <materialIcons:MaterialIcon
-                        Width="196"
-                        Height="196"
+                    <md:MdIcon
+                        Size="128"
                         HorizontalAlignment="Center"
-                        Foreground="{DynamicResource MaterialDividerBrush}"
-                        Kind="AccountCheck" />
+                        Foreground="{DynamicResource Md.Sys.Color.Primary.Brush}"
+                        Glyph="{x:Static md:MdSymbols.AccountCircle}" />
 
                     <TextBlock
                         HorizontalAlignment="Center"
@@ -46,14 +46,12 @@
                     </TextBlock>
 
                     <!--  Log out  -->
-                    <Button
+                    <md:MdButton
                         x:Name="LogOutButton"
                         HorizontalAlignment="Center"
                         Click="LogOutButton_OnClick"
                         Content="{Binding LocalizationManager.LogOutButton}"
-                        FontSize="18"
-                        Foreground="{DynamicResource MaterialSecondaryMidBrush}"
-                        Theme="{DynamicResource MaterialFlatButton}" />
+                        Variant="Tonal" />
                 </StackPanel>
 
                 <!--  Placeholder  -->
@@ -77,7 +75,7 @@
         </Border>
 
         <!--  Close button  -->
-        <Button
+        <md:MdButton
             Grid.Row="2"
             Margin="16"
             HorizontalAlignment="Stretch"
@@ -85,6 +83,6 @@
             Content="{Binding LocalizationManager.CloseButton}"
             IsCancel="True"
             IsDefault="True"
-            Theme="{DynamicResource MaterialOutlineButton}" />
+            Variant="Outlined" />
     </Grid>
 </UserControl>

@@ -7,6 +7,9 @@ public partial class LocalizationManager
     private static readonly IReadOnlyDictionary<string, string> ChineseSimplifiedLocalization =
         new Dictionary<string, string>
         {
+            // Navigation
+            [nameof(HomePageLabel)] = "主页",
+            [nameof(DownloadsPageLabel)] = "下载",
             // Dashboard
             [nameof(QueryPlaceholderText)] = "粘贴链接或搜索",
             [nameof(QueryTooltip)] =
@@ -18,6 +21,7 @@ public partial class LocalizationManager
                 复制并粘贴 **网页链接** 或 **搜索** 以开始下载
                 使用 **Shift+Enter** 可添加多个项目
                 """,
+            [nameof(DownloadsPlaceholder)] = "暂无下载",
             [nameof(DownloadsFileColumnHeader)] = "文件",
             [nameof(DownloadsStatusColumnHeader)] = "状态",
             [nameof(ContextMenuRemoveSuccessful)] = "移除已完成的下载",

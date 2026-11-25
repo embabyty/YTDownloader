@@ -2,9 +2,9 @@ using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
-using Avalonia.Platform;
-using Material.Styles.Themes;
+using Md3.Avalonia.Controls;
+using Md3.Avalonia.Motion;
+using Md3.Avalonia.Themes.Dynamic;
 using Microsoft.Extensions.DependencyInjection;
 using PowerKit.Extensions;
 using YoutubeDownloader.Framework;
@@ -32,6 +32,7 @@ public partial class App : Application, IDisposable
 
         // Framework
         services.AddSingleton<DialogManager>();
+        services.AddSingleton<MdSnackbarService>();
         services.AddSingleton<SnackbarManager>();
         services.AddSingleton<ViewManager>();
         services.AddSingleton<ViewModelManager>();
@@ -75,17 +76,19 @@ public partial class App : Application, IDisposable
 
     private void InitializeTheme()
     {
-        var actualTheme = RequestedThemeVariant?.Key switch
+        // Generate the full Material 3 Expressive color scheme from a single seed color.
+        // Theme resources are dynamic, so controls update when the roles change.
+        var options = new MdThemeOptions
         {
-            "Light" => PlatformThemeVariant.Light,
-            "Dark" => PlatformThemeVariant.Dark,
-            _ => PlatformSettings?.GetColorValues().ThemeVariant ?? PlatformThemeVariant.Light,
+            SeedColor = "#D93025",
+            SchemeVariant = MdThemeSchemeVariant.Expressive,
+            ContrastLevel = MdThemeContrastLevel.Standard,
+            ThemeMode = MdThemeMode.System,
+            MotionScheme = MdMotionScheme.Expressive,
         };
 
-        this.LocateMaterialTheme<MaterialThemeBase>().CurrentTheme =
-            actualTheme == PlatformThemeVariant.Light
-                ? Theme.Create(Theme.Light, Color.Parse("#343838"), Color.Parse("#F9A825"))
-                : Theme.Create(Theme.Dark, Color.Parse("#E8E8E8"), Color.Parse("#F9A825"));
+        var useDarkScheme = ActualThemeVariant == Avalonia.Styling.ThemeVariant.Dark;
+        MdThemeManager.Apply(this, options, useDarkScheme);
     }
 
     public override void Initialize()

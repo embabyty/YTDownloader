@@ -2,18 +2,23 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Avalonia;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Md3.Avalonia.Controls;
 using PowerKit.Extensions;
 using YoutubeDownloader.Framework;
 using YoutubeDownloader.Localization;
 using YoutubeDownloader.Services;
 using YoutubeDownloader.Utils.Extensions;
 using YoutubeDownloader.ViewModels.Components;
+using YoutubeDownloader.ViewModels.Dialogs;
 
 namespace YoutubeDownloader.ViewModels;
 
 public partial class MainViewModel(
     ViewModelManager viewModelManager,
     DialogManager dialogManager,
+    MdSnackbarService snackbarService,
     SnackbarManager snackbarManager,
     LocalizationManager localizationManager,
     SettingsService settingsService,
@@ -22,7 +27,32 @@ public partial class MainViewModel(
 {
     public string Title { get; } = $"{Program.Name} v{Program.VersionString}";
 
+    public LocalizationManager LocalizationManager { get; } = localizationManager;
+
+    public MdSnackbarService SnackbarService { get; } = snackbarService;
+
     public DashboardViewModel Dashboard { get; } = viewModelManager.GetDashboardViewModel();
+
+    public SettingsViewModel Settings { get; } = viewModelManager.GetSettingsPageViewModel();
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsHomeSelected))]
+    [NotifyPropertyChangedFor(nameof(IsDownloadsSelected))]
+    [NotifyPropertyChangedFor(nameof(IsSettingsSelected))]
+    public partial MainPage SelectedPage { get; set; } = MainPage.Home;
+
+    public bool IsHomeSelected => SelectedPage == MainPage.Home;
+    public bool IsDownloadsSelected => SelectedPage == MainPage.Downloads;
+    public bool IsSettingsSelected => SelectedPage == MainPage.Settings;
+
+    [RelayCommand]
+    private void NavigateHome() => SelectedPage = MainPage.Home;
+
+    [RelayCommand]
+    private void NavigateDownloads() => SelectedPage = MainPage.Downloads;
+
+    [RelayCommand]
+    private void NavigateSettings() => SelectedPage = MainPage.Settings;
 
     private async Task ShowUkraineSupportMessageAsync()
     {
@@ -30,10 +60,10 @@ public partial class MainViewModel(
             return;
 
         var dialog = viewModelManager.GetMessageBoxViewModel(
-            localizationManager.UkraineSupportTitle,
-            localizationManager.UkraineSupportMessage,
-            localizationManager.LearnMoreButton,
-            localizationManager.CloseButton
+            LocalizationManager.UkraineSupportTitle,
+            LocalizationManager.UkraineSupportMessage,
+            LocalizationManager.LearnMoreButton,
+            LocalizationManager.CloseButton
         );
 
         // Disable this message in the future
@@ -54,10 +84,10 @@ public partial class MainViewModel(
             return;
 
         var dialog = viewModelManager.GetMessageBoxViewModel(
-            localizationManager.UnstableBuildTitle,
-            string.Format(localizationManager.UnstableBuildMessage, Program.Name),
-            localizationManager.SeeReleasesButton,
-            localizationManager.CloseButton
+            LocalizationManager.UnstableBuildTitle,
+            string.Format(LocalizationManager.UnstableBuildMessage, Program.Name),
+            LocalizationManager.SeeReleasesButton,
+            LocalizationManager.CloseButton
         );
 
         if (await dialogManager.ShowDialogAsync(dialog) == true)
@@ -74,7 +104,7 @@ public partial class MainViewModel(
 
             snackbarManager.Notify(
                 string.Format(
-                    localizationManager.UpdateDownloadingMessage,
+                    LocalizationManager.UpdateDownloadingMessage,
                     Program.Name,
                     updateVersion
                 )
@@ -82,8 +112,8 @@ public partial class MainViewModel(
             await updateService.PrepareUpdateAsync(updateVersion);
 
             snackbarManager.Notify(
-                localizationManager.UpdateReadyMessage,
-                localizationManager.UpdateInstallNowButton,
+                LocalizationManager.UpdateReadyMessage,
+                LocalizationManager.UpdateInstallNowButton,
                 () =>
                 {
                     updateService.FinalizeUpdate(true);
@@ -96,7 +126,7 @@ public partial class MainViewModel(
         catch
         {
             // Failure to update shouldn't crash the application
-            snackbarManager.Notify(localizationManager.UpdateFailedMessage);
+            snackbarManager.Notify(LocalizationManager.UpdateFailedMessage);
         }
     }
 
@@ -105,6 +135,10 @@ public partial class MainViewModel(
         await ShowUkraineSupportMessageAsync();
         await ShowDevelopmentBuildMessageAsync();
         await CheckForUpdatesAsync();
+
+        // The dashboard is hosted directly by the main view now, so it no longer
+        // receives its own view load event to initialize from.
+        await Dashboard.InitializeAsync();
     }
 
     protected override void Dispose(bool disposing)

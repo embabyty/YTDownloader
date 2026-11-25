@@ -5,8 +5,7 @@
     xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
     xmlns:converters="clr-namespace:YoutubeDownloader.Converters"
     xmlns:dialogs="clr-namespace:YoutubeDownloader.ViewModels.Dialogs"
-    xmlns:materialAssists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
-    xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:md="using:Md3.Avalonia.Controls"
     x:Name="UserControl"
     Width="500"
     x:DataType="dialogs:DownloadSingleSetupViewModel">
@@ -19,7 +18,9 @@
             Spacing="8">
             <!--  Title  -->
             <TextBlock
-                FontSize="19"
+                FontSize="{DynamicResource Md.Sys.TypeScale.TitleLarge.Size}"
+                FontWeight="Medium"
+                Foreground="{DynamicResource Md.Sys.Color.OnSurface.Brush}"
                 Text="{Binding Video.Title}"
                 TextTrimming="CharacterEllipsis"
                 ToolTip.Tip="{Binding Video.Title}">
@@ -33,26 +34,18 @@
             <StackPanel Orientation="Horizontal" Spacing="16">
                 <!--  Author  -->
                 <StackPanel Orientation="Horizontal" Spacing="3">
-                    <materialIcons:MaterialIcon
-                        Width="16"
-                        Height="16"
-                        BorderThickness="1"
-                        Kind="UserOutline" />
+                    <md:MdIcon Size="16" Glyph="{x:Static md:MdSymbols.Person}" />
                     <TextBlock
-                        FontWeight="Light"
+                        FontSize="12"
                         Text="{Binding Video.Author.Title}"
                         TextTrimming="CharacterEllipsis" />
                 </StackPanel>
 
                 <!--  Duration  -->
                 <StackPanel Orientation="Horizontal" Spacing="3">
-                    <materialIcons:MaterialIcon
-                        Width="16"
-                        Height="16"
-                        BorderThickness="1"
-                        Kind="ClockOutline" />
+                    <md:MdIcon Size="16" Glyph="{x:Static md:MdSymbols.Schedule}" />
                     <TextBlock
-                        FontWeight="Light"
+                        FontSize="12"
                         Text="{Binding Video.Duration, TargetNullValue=Live}"
                         TextTrimming="CharacterEllipsis" />
                 </StackPanel>
@@ -62,21 +55,20 @@
         <!--  Thumbnail  -->
         <Border
             Grid.Row="1"
-            BorderBrush="{DynamicResource MaterialDividerBrush}"
+            BorderBrush="{DynamicResource Md.Sys.Color.OutlineVariant.Brush}"
             BorderThickness="0,1">
             <Image asyncImageLoader:ImageLoader.Source="{Binding Video, Converter={x:Static converters:VideoToHighestQualityThumbnailUrlStringConverter.Instance}}" />
         </Border>
 
         <!--  Download options  -->
-        <ComboBox
+        <md:MdComboBox
             Grid.Row="2"
             Margin="16"
-            materialAssists:ComboBoxAssist.Label="{Binding LocalizationManager.FormatLabel}"
-            DockPanel.Dock="Left"
             ItemsSource="{Binding AvailableDownloadOptions}"
+            Label="{Binding LocalizationManager.FormatLabel}"
             SelectedItem="{Binding SelectedDownloadOption}"
-            Theme="{DynamicResource MaterialFilledComboBox}">
-            <ComboBox.ItemTemplate>
+            Variant="Outlined">
+            <md:MdComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Spacing="2">
                         <StackPanel Orientation="Horizontal" Spacing="8">
@@ -96,9 +88,9 @@
                             <!--  Upscaled badge  -->
                             <Border
                                 Padding="6,1"
-                                BorderBrush="{DynamicResource MaterialDividerBrush}"
+                                BorderBrush="{DynamicResource Md.Sys.Color.OutlineVariant.Brush}"
                                 BorderThickness="1"
-                                CornerRadius="8"
+                                CornerRadius="{DynamicResource Md.Sys.Shape.Corner.Small}"
                                 IsVisible="{Binding IsVideoUpscaled}">
                                 <TextBlock
                                     FontSize="11"
@@ -108,11 +100,11 @@
                         </StackPanel>
 
                         <!--  Container  -->
-                        <TextBlock FontWeight="Light" Text="{Binding Container, Mode=OneWay}" />
+                        <TextBlock FontSize="12" Text="{Binding Container, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+            </md:MdComboBox.ItemTemplate>
+        </md:MdComboBox>
 
         <!--  Buttons  -->
         <UniformGrid
@@ -120,20 +112,20 @@
             Margin="8"
             Columns="2">
             <!--  Download  -->
-            <Button
+            <md:MdButton
                 Margin="8"
                 Command="{Binding ConfirmCommand}"
                 Content="{Binding LocalizationManager.DownloadButton}"
                 IsDefault="True"
-                Theme="{DynamicResource MaterialOutlineButton}" />
+                Variant="Filled" />
 
             <!--  Cancel  -->
-            <Button
+            <md:MdButton
                 Margin="8"
                 Command="{Binding CloseCommand}"
                 Content="{Binding LocalizationManager.CancelButton}"
                 IsCancel="True"
-                Theme="{DynamicResource MaterialOutlineButton}" />
+                Variant="Outlined" />
         </UniformGrid>
     </Grid>
 </UserControl>

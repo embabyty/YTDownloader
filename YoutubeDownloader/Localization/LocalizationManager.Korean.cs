@@ -9,6 +9,9 @@ public partial class LocalizationManager
         string
     >
     {
+        // Navigation
+        [nameof(HomePageLabel)] = "홈",
+        [nameof(DownloadsPageLabel)] = "다운로드",
         // Dashboard
         [nameof(QueryPlaceholderText)] = "URL 또는 검색",
         [nameof(QueryTooltip)] =
@@ -20,6 +23,7 @@ public partial class LocalizationManager
             다운로드를 시작하려면 **URL**을 복사해 붙여넣거나 **검색어**를 입력하세요
             여러 항목을 추가하려면 **Shift+Enter**를 누르세요
             """,
+        [nameof(DownloadsPlaceholder)] = "다운로드가 없습니다",
         [nameof(DownloadsFileColumnHeader)] = "파일",
         [nameof(DownloadsStatusColumnHeader)] = "상태",
         [nameof(ContextMenuRemoveSuccessful)] = "성공적으로 다운로드한 항목 제거",

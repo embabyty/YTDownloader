@@ -7,6 +7,9 @@ public partial class LocalizationManager
     private static readonly IReadOnlyDictionary<string, string> SpanishLocalization =
         new Dictionary<string, string>
         {
+            // Navigation
+            [nameof(HomePageLabel)] = "Inicio",
+            [nameof(DownloadsPageLabel)] = "Descargas",
             // Dashboard
             [nameof(QueryPlaceholderText)] = "URL o consulta de búsqueda",
             [nameof(QueryTooltip)] =
@@ -18,6 +21,7 @@ public partial class LocalizationManager
                 Pega una **URL** o ingresa una **consulta de búsqueda** para comenzar
                 Presiona **Shift+Enter** para agregar múltiples elementos
                 """,
+            [nameof(DownloadsPlaceholder)] = "Aún no hay descargas",
             [nameof(DownloadsFileColumnHeader)] = "Archivo",
             [nameof(DownloadsStatusColumnHeader)] = "Estado",
             [nameof(ContextMenuRemoveSuccessful)] = "Eliminar descargas exitosas",

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PowerKit.Extensions;
 using YoutubeDownloader.Framework;
@@ -31,6 +32,9 @@ public partial class SettingsViewModel : DialogViewModelBase
     }
 
     public LocalizationManager LocalizationManager { get; }
+
+    [ObservableProperty]
+    public partial bool IsCloseButtonVisible { get; set; } = true;
 
     public IReadOnlyList<ThemeVariant> AvailableThemes { get; } = Enum.GetValues<ThemeVariant>();
 

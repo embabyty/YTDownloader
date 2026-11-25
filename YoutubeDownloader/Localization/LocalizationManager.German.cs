@@ -9,6 +9,9 @@ public partial class LocalizationManager
         string
     >
     {
+        // Navigation
+        [nameof(HomePageLabel)] = "Start",
+        [nameof(DownloadsPageLabel)] = "Downloads",
         // Dashboard
         [nameof(QueryPlaceholderText)] = "URL oder Suchanfrage",
         [nameof(QueryTooltip)] =
@@ -20,6 +23,7 @@ public partial class LocalizationManager
             **URL** einfügen oder **Suchanfrage** eingeben um den Download zu starten
             Drücken Sie **Shift+Enter** um mehrere Einträge hinzuzufügen
             """,
+        [nameof(DownloadsPlaceholder)] = "Noch keine Downloads",
         [nameof(DownloadsFileColumnHeader)] = "Datei",
         [nameof(DownloadsStatusColumnHeader)] = "Status",
         [nameof(ContextMenuRemoveSuccessful)] = "Erfolgreiche Downloads entfernen",

@@ -7,9 +7,9 @@ using YoutubeDownloader.ViewModels.Components;
 
 namespace YoutubeDownloader.Views.Components;
 
-public partial class DashboardView : UserControl<DashboardViewModel>
+public partial class HomeView : UserControl<DashboardViewModel>
 {
-    public DashboardView()
+    public HomeView()
     {
         InitializeComponent();
 
@@ -28,11 +28,5 @@ public partial class DashboardView : UserControl<DashboardViewModel>
             args.Handled = true;
             ProcessQueryButton.Command?.ExecuteIfCan(ProcessQueryButton.CommandParameter);
         }
-    }
-
-    private void StatusTextBlock_OnPointerReleased(object sender, PointerReleasedEventArgs args)
-    {
-        if (sender is IDataContextProvider { DataContext: DownloadViewModel dataContext })
-            dataContext.CopyErrorMessageCommand.ExecuteIfCan(null);
     }
 }

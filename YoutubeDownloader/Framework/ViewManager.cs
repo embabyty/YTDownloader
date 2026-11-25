@@ -1,10 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using YoutubeDownloader.ViewModels;
-using YoutubeDownloader.ViewModels.Components;
 using YoutubeDownloader.ViewModels.Dialogs;
 using YoutubeDownloader.Views;
-using YoutubeDownloader.Views.Components;
 using YoutubeDownloader.Views.Dialogs;
 
 namespace YoutubeDownloader.Framework;
@@ -15,7 +13,6 @@ public partial class ViewManager
         viewModel switch
         {
             MainViewModel => new MainView(),
-            DashboardViewModel => new DashboardView(),
             AuthSetupViewModel => new AuthSetupView(),
             DownloadMultipleSetupViewModel => new DownloadMultipleSetupView(),
             DownloadSingleSetupViewModel => new DownloadSingleSetupView(),

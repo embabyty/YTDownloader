@@ -82,6 +82,11 @@ public partial class LocalizationManager : ObservableObject, IDisposable
 
 public partial class LocalizationManager
 {
+    // ---- Navigation ----
+
+    public string HomePageLabel => Get();
+    public string DownloadsPageLabel => Get();
+
     // ---- Dashboard ----
 
     public string QueryPlaceholderText => Get();
@@ -90,6 +95,7 @@ public partial class LocalizationManager
     public string AuthTooltip => Get();
     public string SettingsTooltip => Get();
     public string DashboardPlaceholder => Get();
+    public string DownloadsPlaceholder => Get();
     public string DownloadsFileColumnHeader => Get();
     public string DownloadsStatusColumnHeader => Get();
     public string ContextMenuRemoveSuccessful => Get();

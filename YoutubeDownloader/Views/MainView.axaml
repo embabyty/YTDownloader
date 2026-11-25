@@ -2,25 +2,146 @@
     x:Class="YoutubeDownloader.Views.MainView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="clr-namespace:YoutubeDownloader.Views.Components"
+    xmlns:dashboard="clr-namespace:YoutubeDownloader.ViewModels.Components"
     xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
-    xmlns:materialStyles="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
+    xmlns:md="using:Md3.Avalonia.Controls"
     xmlns:viewModels="clr-namespace:YoutubeDownloader.ViewModels"
     Title="{Binding Title}"
-    Width="720"
-    Height="620"
-    MinWidth="600"
-    MinHeight="400"
+    Width="900"
+    Height="640"
+    MinWidth="720"
+    MinHeight="480"
     x:DataType="viewModels:MainViewModel"
     Icon="/favicon.ico"
     RenderOptions.BitmapInterpolationMode="HighQuality"
     WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate x:Key="HomePageTemplate" DataType="dashboard:DashboardViewModel">
+            <components:HomeView />
+        </DataTemplate>
+        <DataTemplate x:Key="DownloadsPageTemplate" DataType="dashboard:DashboardViewModel">
+            <components:DownloadsView />
+        </DataTemplate>
+    </Window.Resources>
+
+    <Window.Styles>
+        <!--  Sidebar navigation items  -->
+        <Style Selector="md|MdButton.nav-item">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="MinHeight" Value="48" />
+            <Setter Property="Margin" Value="8,2" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="FontSize" Value="{DynamicResource Md.Sys.TypeScale.LabelLarge.Size}" />
+        </Style>
+        <Style Selector="md|MdButton.nav-item.selected">
+            <Setter Property="Background" Value="{DynamicResource Md.Sys.Color.SecondaryContainer.Brush}" />
+            <Setter Property="Foreground" Value="{DynamicResource Md.Sys.Color.OnSecondaryContainer.Brush}" />
+        </Style>
+    </Window.Styles>
+
     <!--  Hack: dialog host animations mess up webview positioning, so need to disable them  -->
     <dialogHostAvalonia:DialogHost
         x:Name="DialogHost"
         CloseOnClickAway="False"
         DisableOpeningAnimation="True">
-        <materialStyles:SnackbarHost HostName="Root" SnackbarMaxCounts="3">
-            <ContentControl Content="{Binding Dashboard}" />
-        </materialStyles:SnackbarHost>
+        <md:MdSnackbarHost Service="{Binding SnackbarService}">
+            <Grid ColumnDefinitions="200,*">
+                <!--  Sidebar  -->
+                <DockPanel
+                    Grid.Column="0"
+                    Background="{DynamicResource Md.Sys.Color.SurfaceContainerLow.Brush}"
+                    LastChildFill="False">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+                        <!--  Branding  -->
+                        <StackPanel Margin="16,18,16,24" Orientation="Horizontal" Spacing="10">
+                            <md:MdIcon
+                                Size="26"
+                                Foreground="{DynamicResource Md.Sys.Color.Primary.Brush}"
+                                Glyph="{x:Static md:MdSymbols.YoutubeActivity}" />
+                            <TextBlock
+                                FontSize="14"
+                                FontWeight="Medium"
+                                Foreground="{DynamicResource Md.Sys.Color.OnSurface.Brush}"
+                                Text="YoutubeDownloader"
+                                TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+
+                        <!--  Navigation  -->
+                        <md:MdButton
+                            Classes="nav-item"
+                            Classes.selected="{Binding IsHomeSelected}"
+                            Command="{Binding NavigateHomeCommand}"
+                            Variant="Text">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <md:MdIcon Size="20" Glyph="{x:Static md:MdSymbols.Home}" />
+                                <TextBlock Text="{Binding LocalizationManager.HomePageLabel}" />
+                            </StackPanel>
+                        </md:MdButton>
+
+                        <md:MdButton
+                            Classes="nav-item"
+                            Classes.selected="{Binding IsDownloadsSelected}"
+                            Command="{Binding NavigateDownloadsCommand}"
+                            Variant="Text">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <md:MdIcon Size="20" Glyph="{x:Static md:MdSymbols.Download}" />
+                                <TextBlock Text="{Binding LocalizationManager.DownloadsPageLabel}" />
+                            </StackPanel>
+                        </md:MdButton>
+
+                        <md:MdButton
+                            Classes="nav-item"
+                            Classes.selected="{Binding IsSettingsSelected}"
+                            Command="{Binding NavigateSettingsCommand}"
+                            Variant="Text">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <md:MdIcon Size="20" Glyph="{x:Static md:MdSymbols.Settings}" />
+                                <TextBlock Text="{Binding LocalizationManager.SettingsTitle}" />
+                            </StackPanel>
+                        </md:MdButton>
+                    </StackPanel>
+
+                    <!--  Version  -->
+                    <TextBlock
+                        Margin="16"
+                        DockPanel.Dock="Bottom"
+                        FontSize="11"
+                        Foreground="{DynamicResource Md.Sys.Color.OnSurfaceVariant.Brush}"
+                        Text="{Binding Title}"
+                        TextTrimming="CharacterEllipsis"
+                        ToolTip.Tip="{Binding Title}" />
+                </DockPanel>
+
+                <!--  Page content  -->
+                <Grid Grid.Column="1" Background="{DynamicResource Md.Sys.Color.Surface.Brush}">
+                    <!--  Home  -->
+                    <Grid IsVisible="{Binding IsHomeSelected}">
+                        <ContentControl
+                            Content="{Binding Dashboard}"
+                            ContentTemplate="{StaticResource HomePageTemplate}" />
+                    </Grid>
+
+                    <!--  Downloads  -->
+                    <Grid IsVisible="{Binding IsDownloadsSelected}">
+                        <ContentControl
+                            Content="{Binding Dashboard}"
+                            ContentTemplate="{StaticResource DownloadsPageTemplate}" />
+                    </Grid>
+
+                    <!--  Settings  -->
+                    <Grid
+                        Background="{DynamicResource Md.Sys.Color.SurfaceContainer.Brush}"
+                        IsVisible="{Binding IsSettingsSelected}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <ContentControl
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Content="{Binding Settings}" />
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </md:MdSnackbarHost>
     </dialogHostAvalonia:DialogHost>
 </Window>

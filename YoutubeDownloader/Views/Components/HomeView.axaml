@@ -1,0 +1,83 @@
+<UserControl
+    x:Class="YoutubeDownloader.Views.Components.HomeView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="clr-namespace:YoutubeDownloader.ViewModels.Components"
+    xmlns:converters="clr-namespace:YoutubeDownloader.Converters"
+    xmlns:md="using:Md3.Avalonia.Controls"
+    x:DataType="components:DashboardViewModel"
+    Loaded="UserControl_OnLoaded">
+    <DockPanel>
+        <!--  Header  -->
+        <StackPanel
+            Background="{DynamicResource Md.Sys.Color.SurfaceContainer.Brush}"
+            DockPanel.Dock="Top"
+            Orientation="Vertical">
+            <Grid Margin="16,16,12,16" ColumnDefinitions="*,Auto">
+                <!--  Query  -->
+                <md:MdTextBox
+                    x:Name="QueryTextBox"
+                    AcceptsReturn="True"
+                    MaxLines="4"
+                    PlaceholderText="{Binding LocalizationManager.QueryPlaceholderText}"
+                    Text="{Binding Query}"
+                    ToolTip.Tip="{Binding LocalizationManager.QueryTooltip}"
+                    Variant="Outlined">
+                    <md:MdTextBox.LeadingIcon>
+                        <md:MdIcon Size="20" Glyph="{x:Static md:MdSymbols.Search}" />
+                    </md:MdTextBox.LeadingIcon>
+                    <md:MdTextBox.TrailingIcon>
+                        <md:MdIconButton
+                            x:Name="ProcessQueryButton"
+                            Command="{Binding ProcessQueryCommand}"
+                            Icon="{x:Static md:MdSymbols.ArrowForward}"
+                            IsDefault="True"
+                            ToolTip.Tip="{Binding LocalizationManager.ProcessQueryTooltip}"
+                            Variant="Standard" />
+                    </md:MdTextBox.TrailingIcon>
+                </md:MdTextBox>
+
+                <!--  Auth button  -->
+                <md:MdIconButton
+                    Grid.Column="1"
+                    Margin="8,0,0,0"
+                    Command="{Binding ShowAuthSetupCommand}"
+                    Icon="{x:Static md:MdSymbols.Key}"
+                    ToolTip.Tip="{Binding LocalizationManager.AuthTooltip}"
+                    Variant="Standard" />
+            </Grid>
+
+            <!--  Progress  -->
+            <md:MdLinearProgressIndicator
+                Height="4"
+                IsIndeterminate="{Binding IsProgressIndeterminate}"
+                Maximum="1"
+                Value="{Binding Progress.Current.Fraction, Mode=OneWay}" />
+        </StackPanel>
+
+        <!--  Body  -->
+        <Panel Background="{DynamicResource Md.Sys.Color.Surface.Brush}" DockPanel.Dock="Bottom">
+            <!--  Placeholder  -->
+            <StackPanel
+                Margin="8,32,8,8"
+                HorizontalAlignment="Center"
+                IsVisible="{Binding !Downloads.Count}"
+                Orientation="Vertical"
+                Spacing="16">
+                <md:MdIcon
+                    Size="140"
+                    Foreground="{DynamicResource Md.Sys.Color.OutlineVariant.Brush}"
+                    Glyph="{x:Static md:MdSymbols.YoutubeActivity}" />
+
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="{DynamicResource Md.Sys.TypeScale.TitleLarge.Size}"
+                    Foreground="{DynamicResource Md.Sys.Color.OnSurfaceVariant.Brush}"
+                    Inlines="{Binding LocalizationManager.DashboardPlaceholder, Converter={x:Static converters:MarkdownToInlinesConverter.Instance}}"
+                    LineSpacing="8"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+        </Panel>
+    </DockPanel>
+</UserControl>

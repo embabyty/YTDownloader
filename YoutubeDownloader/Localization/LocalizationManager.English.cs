@@ -7,6 +7,9 @@ public partial class LocalizationManager
     private static readonly IReadOnlyDictionary<string, string> EnglishLocalization =
         new Dictionary<string, string>
         {
+            // Navigation
+            [nameof(HomePageLabel)] = "Home",
+            [nameof(DownloadsPageLabel)] = "Downloads",
             // Dashboard
             [nameof(QueryPlaceholderText)] = "URL or search query",
             [nameof(QueryTooltip)] =
@@ -18,6 +21,7 @@ public partial class LocalizationManager
                 Copy-paste a **URL** or enter a **search query** to start downloading
                 Press **Shift+Enter** to add multiple items
                 """,
+            [nameof(DownloadsPlaceholder)] = "No downloads yet",
             [nameof(DownloadsFileColumnHeader)] = "File",
             [nameof(DownloadsStatusColumnHeader)] = "Status",
             [nameof(ContextMenuRemoveSuccessful)] = "Remove successful downloads",

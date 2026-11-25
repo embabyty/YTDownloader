@@ -1,19 +1,16 @@
 using System;
-using Avalonia.Threading;
-using Material.Styles.Controls;
-using Material.Styles.Models;
+using CommunityToolkit.Mvvm.Input;
+using Md3.Avalonia.Controls;
 
 namespace YoutubeDownloader.Framework;
 
-public class SnackbarManager
+public class SnackbarManager(MdSnackbarService snackbarService)
 {
     private readonly TimeSpan _defaultDuration = TimeSpan.FromSeconds(5);
 
     public void Notify(string message, TimeSpan? duration = null) =>
-        SnackbarHost.Post(
-            new SnackbarModel(message, duration ?? _defaultDuration),
-            null,
-            DispatcherPriority.Normal
+        snackbarService.Show(
+            new MdSnackbarMessage(message) { Duration = duration ?? _defaultDuration }
         );
 
     public void Notify(
@@ -22,13 +19,12 @@ public class SnackbarManager
         Action actionHandler,
         TimeSpan? duration = null
     ) =>
-        SnackbarHost.Post(
-            new SnackbarModel(
-                message,
-                duration ?? _defaultDuration,
-                new SnackbarButtonModel { Text = actionText, Action = actionHandler }
-            ),
-            null,
-            DispatcherPriority.Normal
+        snackbarService.Show(
+            new MdSnackbarMessage(message)
+            {
+                Duration = duration ?? _defaultDuration,
+                ActionContent = actionText,
+                ActionCommand = new RelayCommand(actionHandler),
+            }
         );
 }

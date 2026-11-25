@@ -9,6 +9,9 @@ public partial class LocalizationManager
         string
     >
     {
+        // Navigation
+        [nameof(HomePageLabel)] = "Accueil",
+        [nameof(DownloadsPageLabel)] = "Téléchargements",
         // Dashboard
         [nameof(QueryPlaceholderText)] = "URL ou requête de recherche",
         [nameof(QueryTooltip)] =
@@ -20,6 +23,7 @@ public partial class LocalizationManager
             Collez une **URL** ou entrez une **requête de recherche** pour commencer
             Appuyez sur **Shift+Entrée** pour ajouter plusieurs éléments
             """,
+        [nameof(DownloadsPlaceholder)] = "Aucun téléchargement pour l'instant",
         [nameof(DownloadsFileColumnHeader)] = "Fichier",
         [nameof(DownloadsStatusColumnHeader)] = "Statut",
         [nameof(ContextMenuRemoveSuccessful)] = "Supprimer les téléchargements réussis",

@@ -7,6 +7,9 @@ public partial class LocalizationManager
     private static readonly IReadOnlyDictionary<string, string> UkrainianLocalization =
         new Dictionary<string, string>
         {
+            // Navigation
+            [nameof(HomePageLabel)] = "Головна",
+            [nameof(DownloadsPageLabel)] = "Завантаження",
             // Dashboard
             [nameof(QueryPlaceholderText)] = "URL або пошуковий запит",
             [nameof(QueryTooltip)] =
@@ -18,6 +21,7 @@ public partial class LocalizationManager
                 Вставте **URL** або введіть **пошуковий запит** для завантаження
                 Натисніть **Shift+Enter**, щоб додати декілька елементів
                 """,
+            [nameof(DownloadsPlaceholder)] = "Ще немає завантажень",
             [nameof(DownloadsFileColumnHeader)] = "Файл",
             [nameof(DownloadsStatusColumnHeader)] = "Статус",
             [nameof(ContextMenuRemoveSuccessful)] = "Видалити успішні завантаження",

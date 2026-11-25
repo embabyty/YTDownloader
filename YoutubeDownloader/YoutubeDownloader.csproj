@@ -43,9 +43,9 @@
     <PackageReference Include="Gress" />
     <PackageReference Include="MacBundle" />
     <PackageReference Include="Markdig" />
-    <PackageReference Include="Material.Avalonia" />
-    <PackageReference Include="Material.Avalonia.DataGrid" />
-    <PackageReference Include="Material.Icons.Avalonia" />
+    <PackageReference Include="Md3.Avalonia" />
+    <PackageReference Include="Md3.Avalonia.DataGrid" />
+    <PackageReference Include="Md3.Avalonia.Icons" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Onova" />
     <PackageReference Include="PowerKit" />

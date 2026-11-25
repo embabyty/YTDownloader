@@ -103,4 +103,14 @@ public class ViewModelManager(IServiceProvider services, LocalizationManager loc
 
     public SettingsViewModel GetSettingsViewModel() =>
         services.GetRequiredService<SettingsViewModel>();
+
+    public SettingsViewModel GetSettingsPageViewModel()
+    {
+        var viewModel = services.GetRequiredService<SettingsViewModel>();
+
+        // When hosted as a navigation page, settings stay open, so there is no dialog to close
+        viewModel.IsCloseButtonVisible = false;
+
+        return viewModel;
+    }
 }

@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dialogs="clr-namespace:YoutubeDownloader.ViewModels.Dialogs"
+    xmlns:md="using:Md3.Avalonia.Controls"
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
     Width="500"
     x:DataType="dialogs:MessageBoxViewModel">
@@ -11,8 +12,9 @@
         <TextBlock
             Grid.Row="0"
             Margin="16"
-            FontSize="19"
-            FontWeight="Light"
+            FontSize="{DynamicResource Md.Sys.TypeScale.TitleLarge.Size}"
+            FontWeight="Medium"
+            Foreground="{DynamicResource Md.Sys.Color.OnSurface.Brush}"
             Text="{Binding Title}"
             TextTrimming="CharacterEllipsis"
             ToolTip.Tip="{Binding Title}" />
@@ -21,7 +23,7 @@
         <Border
             Grid.Row="1"
             Padding="0,8"
-            BorderBrush="{DynamicResource MaterialDividerBrush}"
+            BorderBrush="{DynamicResource Md.Sys.Color.OutlineVariant.Brush}"
             BorderThickness="0,1">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <TextBlock
@@ -36,37 +38,37 @@
             Margin="8"
             Columns="{Binding ButtonsCount}">
             <!--  OK  -->
-            <Button
+            <md:MdButton
                 Margin="8"
                 HorizontalContentAlignment="Stretch"
                 Command="{Binding CloseCommand}"
                 IsDefault="True"
                 IsVisible="{Binding IsDefaultButtonVisible}"
-                Theme="{DynamicResource MaterialOutlineButton}"
-                ToolTip.Tip="{Binding DefaultButtonText}">
-                <Button.CommandParameter>
+                ToolTip.Tip="{Binding DefaultButtonText}"
+                Variant="Filled">
+                <md:MdButton.CommandParameter>
                     <system:Boolean>True</system:Boolean>
-                </Button.CommandParameter>
+                </md:MdButton.CommandParameter>
                 <TextBlock
                     Text="{Binding DefaultButtonText}"
                     TextAlignment="Center"
                     TextTrimming="CharacterEllipsis" />
-            </Button>
+            </md:MdButton>
 
             <!--  Cancel  -->
-            <Button
+            <md:MdButton
                 Margin="8"
                 HorizontalContentAlignment="Stretch"
                 Command="{Binding CloseCommand}"
                 IsCancel="True"
                 IsVisible="{Binding IsCancelButtonVisible}"
-                Theme="{DynamicResource MaterialOutlineButton}"
-                ToolTip.Tip="{Binding CancelButtonText}">
+                ToolTip.Tip="{Binding CancelButtonText}"
+                Variant="Outlined">
                 <TextBlock
                     Text="{Binding CancelButtonText}"
                     TextAlignment="Center"
                     TextTrimming="CharacterEllipsis" />
-            </Button>
+            </md:MdButton>
         </UniformGrid>
     </Grid>
 </UserControl>
